@@ -4,18 +4,18 @@ import scipy
 from scipy.stats import bernoulli
 
 class Results:
-    class Result:
+    class Result_Arm:
         def __init__(self):
             self.success = 0
             self.failure = 0
 
     def __init__(self,arm_count):
-        self._results = [self.Result() for i in range(arm_count)]
+        self._results = [self.Result_Arm() for i in range(arm_count)]
     
-    def record_success(self,arm_index):
+    def add_success(self,arm_index):
         self._results[arm_index].success += 1
 
-    def record_failure(self,arm_index):
+    def add_failure(self,arm_index):
         self._results[arm_index].failure += 1
 
     def get_success_count(self,arm_index):
@@ -55,10 +55,10 @@ if __name__ == "__main__":
         arm_to_pull = numpy.argmax(ctrs_sampled)
         outcome = bernoulli.rvs(ctrs_true[arm_to_pull])
         if outcome == 0:
-            results.record_failure(arm_to_pull)
+            results.add_failure(arm_to_pull)
         else:
             hit += 1
-            results.record_success(arm_to_pull)
+            results.add_success(arm_to_pull)
 
     print("outcome ctr:" + str(hit/time_count))
     print("true ctrs:"+ str(ctrs_true))
